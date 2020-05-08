@@ -1,4 +1,5 @@
 # Full-Stack Blog Application
+
 ## Summary
 Full-stack blog app that uses CRUD operations. 
 
@@ -25,9 +26,12 @@ Full-stack blog app that uses CRUD operations.
   * __controller__ has CRUD functions exported 
   * __models__ holds schemas for mongoDB database 
   * __seed__ adds initial values to database using __db__ and schemas
-## Process 
 
-#### Backend
+## Process
+
+### Backend 
+
+#### Backend - Setup and Structure
 1. Set up server.js to listen, and import body-parser, morgan and cors.
 
    ```js
@@ -38,7 +42,7 @@ Full-stack blog app that uses CRUD operations.
     const cors = require('cors')
 
     const app = express()
-    app.use(bodyParser.json())
+    app.use(body-parser.json())
     app.use(morgan('dev'))
     app.use(cors())
 
@@ -140,4 +144,91 @@ Full-stack blog app that uses CRUD operations.
         db.close()
       }
 
+      // run 'run'
+      run()
   ```
+
+#### Backend - Test 
+Run the seed file to see if the db runs on our computer.
+* node seed/blogPosts.js
+* Use MongoDB Compass to check (local) database.
+  1. Download [MongoDB Compass](https://www.mongodb.com/products/compass) or use a tool you have.
+  2. On MongoDB Compass connect to localhost (empty search bar does the same) and look for port 27017.
+  3. See blogAppDatabase on the left, and the blogposts collection.
+  4. See the blogposts made in the seed file with correct keys and values.
+
+#### Backend - Write Routes 
+We need to write routes and then corresponding functions in the controller. We will test them after writing each one.
+
+1. Create index.js in the routes directory and index.js in the controllers directory. 
+* touch routes/index.js controllers/index.js
+
+2. routes/index.js requires { Router } from express and our export from controllers.
+  ```js
+    const { Router } = require('express')
+    const router = Router()
+    const controllers = require('../controllers')
+
+    // home route requires no controller 
+    router.get('/', (req, res) => res.send('This is root!'))
+
+    module.exports = router
+  ```
+
+3. controllers/index.js requires db and our schema, models/blogPost
+  ```js
+    const db = require('../db')
+    const BlogPost = require('../models/blogPost')
+
+    // include this every time db is used 
+    db.on('error', console.error.bind(console, 'MongoDB connection error:'))
+
+    // write functions here 
+
+    module.exports = {
+      // export using names of functions in this object
+    }
+  ```
+
+4. Determine which routes required 
+* Create blog post - POST /api/posts/
+* View all blog posts (return array) - GET /api/posts/
+* Read one blog post - GET /api/posts/:id
+* Edit one blog post - PUT /api/posts/:id
+* Delete one blog post - DELETE /api/posts/:id
+Write these routes using router.get() or whichever CRUD request type (replacing '.get()').
+(I won't be putting all the code as it is in the Github already)
+
+* Example route: get all products 
+    * router request in routes 
+    ```js
+      // get all posts 
+      // it doesn't say /api here because it will be in server.js
+      router.get('/posts', (req, res) => controllers.getBlogPosts)
+    ```
+    * function in controllers 
+    ```js
+      // get all blog posts 
+      function getBlogPosts(req, res) {
+        // do try catch to handle errors so server doesn't crash
+        try {
+          const blogPosts = BlogPost.find()
+
+          res.json(blogPosts)
+        } catch (error) {
+          res.status(500).json({ error: error.message })
+        }
+      }
+    ```
+    * require routes and app.use in server.js 
+    ```js
+      // import routes (which is a Router from express)
+      const routes = require('./routes')
+      // ... skip down a bit 
+
+      // we use the routes, with the additional prefix route '/api'
+      app.use('/api', routes)
+    ```
+* Check http://localhost:3000/api 
+ * "This is root!" -> It works!
+    
