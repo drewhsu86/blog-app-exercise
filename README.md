@@ -1,9 +1,9 @@
 # Full-Stack Blog Application
 
-## Summary
+# Summary
 Full-stack blog app that uses CRUD operations. 
 
-## Installation
+# Installation
 1. Create directory - mkdir <folder-name>
 2. Initialize package.json for npm - npm init -y
 3. Install Express things:
@@ -27,11 +27,11 @@ Full-stack blog app that uses CRUD operations.
   * __models__ holds schemas for mongoDB database 
   * __seed__ adds initial values to database using __db__ and schemas
 
-## Process
+# Process
 
-### Backend 
+## Backend 
 
-#### Backend - Setup and Structure
+### Backend - Setup and Structure
 1. Set up server.js to listen, and import body-parser, morgan and cors.
 
    ```js
@@ -148,7 +148,7 @@ Full-stack blog app that uses CRUD operations.
       run()
   ```
 
-#### Backend - Test 
+### Backend - Test 
 Run the seed file to see if the db runs on our computer.
 * node seed/blogPosts.js
 * Use MongoDB Compass to check (local) database.
@@ -157,7 +157,7 @@ Run the seed file to see if the db runs on our computer.
   3. See blogAppDatabase on the left, and the blogposts collection.
   4. See the blogposts made in the seed file with correct keys and values.
 
-#### Backend - Write Routes 
+### Backend - Write Routes 
 We need to write routes and then corresponding functions in the controller. We will test them after writing each one.
 
 1. Create index.js in the routes directory and index.js in the controllers directory. 
@@ -198,21 +198,22 @@ We need to write routes and then corresponding functions in the controller. We w
 * Delete one blog post - DELETE /api/posts/:id
 Write these routes using router.get() or whichever CRUD request type (replacing '.get()').
 (I won't be putting all the code as it is in the Github already)
+Also, remember to remember all the __async__ __await__ for schema!
 
 * Example route: get all products 
     * router request in routes 
     ```js
       // get all posts 
       // it doesn't say /api here because it will be in server.js
-      router.get('/posts', (req, res) => controllers.getBlogPosts)
+      router.get('/posts', (req, res) => controllers.getBlogPosts(req, res))
     ```
-    * function in controllers 
+    * function in controllers (REMEMBER TO EXPORT IT)
     ```js
       // get all blog posts 
-      function getBlogPosts(req, res) {
-        // do try catch to handle errors so server doesn't crash
+      async function getBlogPosts(req, res) {
+      // do try catch to handle errors so server doesn't crash
         try {
-          const blogPosts = BlogPost.find()
+          const blogPosts = await BlogPost.find()
 
           res.json(blogPosts)
         } catch (error) {
