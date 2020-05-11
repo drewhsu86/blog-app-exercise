@@ -32,7 +32,7 @@ Full-stack blog app that uses CRUD operations.
 ## Backend 
 
 ### Backend - Setup and Structure
-1. Set up server.js to listen, and import body-parser, morgan and cors.
+1. Set up server.js to listen, and import body-parser, morgan and cors. 
 
    ```js
     // setting up variables for server.js
@@ -73,6 +73,13 @@ Full-stack blog app that uses CRUD operations.
     const db = mongoose.connection
 
     module.exports = db
+  ```
+  Add the import and error catching to server.js
+  ```js
+    const db = require('./db')
+    // ... 
+    db.on('error', console.error.bind(console, 'MongoDB connection error:'))
+
   ```
 
 3. Set up a schema for our blog post database collection in the models folder.
@@ -233,3 +240,21 @@ Also, remember to remember all the __async__ __await__ for schema!
 * Check http://localhost:3000/api 
  * "This is root!" -> It works!
     
+## Frontend 
+
+### Determine Layout and Basic Plan
+Plan out some views or pages the React app will have. We will have app.js act as the router and have everything in a components folder. 
+* App.js - router 
+* nav - links to: view all posts, make new post 
+* posts - show all posts as a list (just names)
+* post/:id - show one post and content, also edit button
+* post/edit/:id - show post with input/textarea, also save and delete buttons
+* post/create - show empty input/textarea, also create button 
+* services folder that exports the api url (wrapper for axios)
+
+Because I am more concerned with functionality than optimization at the moment so I will write visual components and only include state where I need them.
+* Will use useState (React hooks)
+* Expected state requirements
+  1. store api call for rerender 
+  2. store input and textdata for put and delete 
+
