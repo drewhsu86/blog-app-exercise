@@ -1,7 +1,7 @@
 # Full-Stack Blog Application
 
 # Summary
-Full-stack blog app that uses CRUD operations. 
+The purpose of this app is to practice and record the steps to make a full-stack blog app that uses CRUD operations. The tech stack is Express, Mongodb and React. The focus is on how to create each step of the tech stack as well as connecting them as a RESTful app, so the styling of the app is highly neglected. The readme can be used by others to learn or remind them of the steps to instantiate each part of the app.
 
 # Installation
 1. Create directory - mkdir <folder-name>
