@@ -42,7 +42,7 @@ The purpose of this app is to practice and record the steps to make a full-stack
     const cors = require('cors')
 
     const app = express()
-    app.use(body-parser.json())
+    app.use(bodyParser.json())
     app.use(morgan('dev'))
     app.use(cors())
 
