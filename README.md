@@ -37,7 +37,7 @@ The purpose of this app is to practice and record the steps to make a full-stack
    ```js
     // setting up variables for server.js
     const express = require('express')
-    const bodyParser = require('bodyParser')
+    const bodyParser = require('body-parser')
     const morgan = require('morgan')
     const cors = require('cors')
 
